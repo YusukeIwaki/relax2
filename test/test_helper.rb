@@ -1,4 +1,6 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "relax2"
+# frozen_string_literal: true
 
-require "minitest/autorun"
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+require 'relax2'
+
+require 'minitest/autorun'

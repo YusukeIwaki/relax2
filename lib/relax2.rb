@@ -1,4 +1,6 @@
-require "relax2/version"
+# frozen_string_literal: true
+
+require 'relax2/version'
 
 module Relax2
   class Error < StandardError; end

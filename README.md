@@ -1,8 +1,89 @@
 # Relax2
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/relax2`. To experiment with that code, run `bin/console` for an interactive prompt.
+Relax2 is a quick and dirty HTTP API client factory for Ruby.
 
-TODO: Delete this and the text above, and describe your gem
+```ruby
+## petstore.rb
+require 'relax2'
+
+base_url 'https://petstore.swagger.io/v2'
+
+interceptor -> (request) do
+  puts request.body
+  response = yield(request)
+  puts response.body
+  response
+end
+```
+
+Then enjoy your API calls.
+
+```
+% ruby petstore.rb GET /pet/2
+{
+  "id": 2,
+  "category": {
+    "id": 5,
+    "name": "Angel"
+  },
+  "name": "DOG",
+  "tags": [
+    {
+      "id": 1,
+      "name": "Armanda Hirthe"
+    }
+  ],
+  "status": "available"
+}
+```
+
+```
+% ruby petstore.rb PUT /pet/2
+{
+  "name": "NEW DOG"
+}
+
+{
+  "id": 2,
+  "category": {
+    "id": 5,
+    "name": "Angel"
+  },
+  "name": "NEW DOG",
+  "tags": [
+    {
+      "id": 1,
+      "name": "Armanda Hirthe"
+    }
+  ],
+  "status": "available"
+}
+```
+
+If you want to create more detailed client, use the modular style with `Relax2::Base`.
+
+```ruby
+require 'relax2/base'
+
+class ExampleApi < Relax2::Base
+  base_url 'http://example.com/api/v1'
+
+  interceptor -> (request) do
+  	puts request.path
+  	puts request.body
+  	response = yield(request)
+  	puts response.status
+  	puts response.body
+  	response
+  end
+end
+
+request = Relax2::Request.from_string('GET /hogehoge q=xx USER-Agent: Hoge/1.23')
+response = ExampleApi.call(request)
+```
+
+
+
 
 ## Installation
 
@@ -12,17 +93,7 @@ Add this line to your application's Gemfile:
 gem 'relax2'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install relax2
-
-## Usage
-
-TODO: Write usage instructions here
+and then `bundle install`
 
 ## Development
 
@@ -32,4 +103,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/relax2.
+Bug reports and pull requests are welcome on GitHub at https://github.com/YusukeIwaki/relax2.
