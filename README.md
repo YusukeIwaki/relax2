@@ -8,9 +8,9 @@ require 'relax2'
 
 base_url 'https://petstore.swagger.io/v2'
 
-interceptor -> (request) do
+interceptor -> (request, perform_request) do
   puts request.body
-  response = yield(request)
+  response = perform_request.call(request)
   puts response.body
   response
 end
@@ -68,13 +68,13 @@ require 'relax2/base'
 class ExampleApi < Relax2::Base
   base_url 'http://example.com/api/v1'
 
-  interceptor -> (request) do
-  	puts request.path
-  	puts request.body
-  	response = yield(request)
-  	puts response.status
-  	puts response.body
-  	response
+  interceptor -> (request, perform_request) do
+    puts request.path
+    puts request.body
+    response = perform_request.call(request)
+    puts response.status
+    puts response.body
+    response
   end
 end
 
