@@ -30,7 +30,7 @@ module Relax2
 
       @interceptors ||= []
       if @interceptors.empty?
-        @interceptors << Interceptors::PrintResponse.new(print_status: false, print_headers: false)
+        @interceptors << Interceptors.print_response
       end
 
       call(request)

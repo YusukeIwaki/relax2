@@ -5,15 +5,19 @@ module Relax2
       @base_url = base_url_value
     end
 
-    # @param interceptor_impl [Proc]
+    # @param interceptor_impl [Proc|Symbol]
     def interceptor(interceptor_impl = nil, &interceptor_impl_block)
-      if interceptor_impl_block
-        (@interceptors ||= []) << interceptor_impl_block
-      elsif interceptor_impl
-        (@interceptors ||= []) << interceptor_impl
-      else
-        raise ArgumentError, 'interceptor must be specified as Proc or block'
-      end
+      impl =
+        if interceptor_impl_block
+          interceptor_impl_block
+        elsif interceptor_impl.is_a?(Symbol)
+          ::Relax2::Interceptors.send(interceptor_impl)
+        elsif interceptor_impl.respond_to?(:call)
+          interceptor_impl
+        else
+          raise ArgumentError, 'interceptor must be specified as Proc or block'
+        end
+      (@interceptors ||= []) << impl
     end
   end
 end

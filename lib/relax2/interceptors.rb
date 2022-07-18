@@ -1,7 +1,7 @@
 module Relax2
   module Interceptors
     class PrintRequest
-      def initialize(print_headers: true, print_body: true)
+      def initialize(print_headers:, print_body:)
         @print_headers = print_headers
         @print_body = print_body
       end
@@ -28,7 +28,7 @@ module Relax2
     end
 
     class PrintResponse
-      def initialize(print_status: true, print_headers: true)
+      def initialize(print_status:, print_headers:)
         @print_status = print_status
         @print_headers = print_headers
       end
@@ -55,6 +55,18 @@ module Relax2
         end
         puts lines.join("\n")
       end
+    end
+
+    module_function def verbose_print_request
+      PrintRequest.new(print_headers: true, print_body: true)
+    end
+
+    module_function def print_response
+      PrintResponse.new(print_status: false, print_headers: false)
+    end
+
+    module_function def verbose_print_response
+      PrintResponse.new(print_status: true, print_headers: true)
     end
 
     module_function def json_request
