@@ -5,6 +5,17 @@ require 'uri'
 module Relax2
   # @internal
   class FluentArg
+    NameValuePair = Struct.new(:name, :value) do
+      def initialize(...)
+        super
+        freeze
+      end
+
+      def to_a
+        [name, value]
+      end
+    end
+
     # @param args [Array<String>] ['GET', '/search', 'q=dart', 'Authorization:' 'Basic' 'aXdha2k6MTIzNDUK']
     def initialize(args)
       maybe_http_method, maybe_path_with_query, *maybe_args = args

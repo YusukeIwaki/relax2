@@ -24,10 +24,10 @@ module Relax2
       assert_nil request.body
 
       expected = [
-        NameValuePair.new('page', '12'),
-        NameValuePair.new('q', '日本語')
+        %w[page 12],
+        %w[q 日本語],
       ]
-      assert_equal expected, request.query_parameters.sort_by(&:name)
+      assert_equal expected, request.query_parameters.sort_by(&:first)
     end
 
     def test_parse_additional_query_parameters
@@ -38,7 +38,7 @@ module Relax2
       assert_equal 1, request.query_parameters.size
       assert_nil request.body
 
-      assert_equal NameValuePair.new('q', '日本語 English'), request.query_parameters.first
+      assert_equal ['q', '日本語 English'], request.query_parameters.first
     end
 
     def test_parse_additional_headers
@@ -50,10 +50,10 @@ module Relax2
       assert_nil request.body
 
       expected_headers = [
-        NameValuePair.new('Authorization', 'Bearer xxxxxxxxx'),
-        NameValuePair.new('X-CUSTOM-ID', 'Custom 1 2 3')
+        ['Authorization', 'Bearer xxxxxxxxx'],
+        ['X-CUSTOM-ID', 'Custom 1 2 3'],
       ]
-      assert_equal expected_headers, request.headers.sort_by(&:name)
+      assert_equal expected_headers, request.headers.sort_by(&:first)
     end
 
     def test_parse_magic_parameter

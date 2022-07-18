@@ -20,9 +20,9 @@ module Relax2
     end
 
     def test_interceptor_symbol
-      _base_url = @base_url
+      a_base_url = @base_url
       app = Class.new(::Relax2::Base) do
-        base_url _base_url
+        base_url a_base_url
         interceptor :dsl_test
       end
       response = app.call(Request.from(args: 'GET /200'.split(' ')))
@@ -30,13 +30,13 @@ module Relax2
     end
 
     def test_interceptor_callable
-      _base_url = @base_url
+      a_base_url = @base_url
       callable = lambda do |request, perform_request|
         response = perform_request.call(request)
         Response.new(status: 200, headers: [], body: "DSL-Test2 #{response.body}")
       end
       app = Class.new(::Relax2::Base) do
-        base_url _base_url
+        base_url a_base_url
         interceptor callable
       end
       response = app.call(Request.from(args: 'GET /200'.split(' ')))
@@ -44,9 +44,9 @@ module Relax2
     end
 
     def test_interceptor_block
-      _base_url = @base_url
+      a_base_url = @base_url
       app = Class.new(::Relax2::Base) do
-        base_url _base_url
+        base_url a_base_url
         interceptor do |request, perform_request|
           response = perform_request.call(request)
           Response.new(status: 200, headers: [], body: "DSL-Test3 #{response.body}")

@@ -50,20 +50,16 @@ module Relax2
       end
 
       private def request_uri_from(request)
-        queries = request.query_parameters.map do |param|
-          [param.name, param.value]
-        end
-
         URI.parse("#{@base_url}#{request.path}").tap do |uri|
-          uri.query = URI.encode_www_form(queries) unless queries.empty?
+          uri.query = URI.encode_www_form(request.query_parameters) unless request.query_parameters.empty?
         end
       end
 
       private def net_http_request_from(request)
         net_http_request = NET_HTTP_REQUEST_MAP[request.http_method].new(request_uri_from(request))
 
-        request.headers.each do |header|
-          net_http_request[header.name] = header.value
+        request.headers.each do |name, value|
+          net_http_request[name] = value
         end
         net_http_request.body = request.body if request.body
         net_http_request
@@ -72,7 +68,7 @@ module Relax2
       private def response_from(net_http_response)
         headers = []
         net_http_response.each_header do |name, value|
-          headers << NameValuePair.new(name, value)
+          headers << [name, value]
         end
 
         Response.new(

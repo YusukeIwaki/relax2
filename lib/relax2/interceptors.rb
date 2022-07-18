@@ -69,8 +69,8 @@ module Relax2
 
     module_function def json_request
       lambda do |request, perform_request|
-        request.headers << ::Relax2::NameValuePair.new('Accept', 'application/json')
-        request.headers << ::Relax2::NameValuePair.new('Content-Type', 'application/json')
+        request.headers << ['Accept', 'application/json']
+        request.headers << ['Content-Type', 'application/json']
         perform_request.call(request)
       end
     end

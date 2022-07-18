@@ -15,8 +15,8 @@ module Relax2
       new(
         http_method: arg.http_method,
         path: arg.path,
-        query_parameters: arg.query_parameters,
-        headers: arg.headers,
+        query_parameters: arg.query_parameters.map(&:to_a),
+        headers: arg.headers.map(&:to_a),
         body: body,
       )
     end
