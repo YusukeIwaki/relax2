@@ -1,5 +1,6 @@
 require 'relax2/dsl'
 require 'relax2/errors'
+require 'relax2/file_cache'
 require 'relax2/fluent_arg'
 require 'relax2/interceptors'
 require 'relax2/name_value_pair'
