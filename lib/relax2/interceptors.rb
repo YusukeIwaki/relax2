@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relax2
   module Interceptors
     class PrintRequest
@@ -37,9 +39,7 @@ module Relax2
         lines = []
         response = perform_request.call(request)
 
-        if @print_status
-          lines << "HTTP #{response.status}"
-        end
+        lines << "HTTP #{response.status}" if @print_status
 
         if @print_headers
           response.headers.each do |header|
@@ -48,9 +48,7 @@ module Relax2
         end
 
         if response.body
-          unless lines.empty?
-            lines << ''
-          end
+          lines << '' unless lines.empty?
           lines << response.body
         end
         puts lines.join("\n")

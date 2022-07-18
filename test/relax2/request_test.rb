@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'minitest/autorun'
 require 'relax2/base'
 require 'tempfile'
@@ -23,7 +25,7 @@ module Relax2
 
       expected = [
         NameValuePair.new('page', '12'),
-        NameValuePair.new('q', '日本語'),
+        NameValuePair.new('q', '日本語')
       ]
       assert_equal expected, request.query_parameters.sort_by(&:name)
     end
@@ -67,17 +69,17 @@ module Relax2
     end
 
     def test_raise_on_nonexist_magic_parameter
-      err = assert_raises {
-        Relax2::Request.from(args: "PUT /current_user @body=hoge hoge.json".split(' '))
-      }
+      err = assert_raises do
+        Relax2::Request.from(args: 'PUT /current_user @body=hoge hoge.json'.split(' '))
+      end
       assert err.is_a?(Errno::ENOENT)
       assert_includes err.message, 'hoge hoge.json'
     end
 
     def test_raises_on_invalid_magic_parameter
-      err = assert_raises {
+      err = assert_raises do
         Relax2::Request.from(args: 'POST /pets @arg=1'.split(' '))
-      }
+      end
       assert_includes err.message, 'Unknown parameter: @arg'
     end
   end

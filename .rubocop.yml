@@ -1,0 +1,26 @@
+require:
+  - rubocop-minitest
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 2.7
+
+Layout/LineLength:
+  Max: 140
+
+Metrics/AbcSize:
+  Exclude:
+    - 'test/**/*'
+
+Metrics/MethodLength:
+  Max: 16
+
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
+
+Style/Documentation:
+  Exclude:
+    - 'test/**/*'
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma

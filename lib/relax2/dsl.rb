@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relax2
   module DSL
     # @param base_url_value [String]

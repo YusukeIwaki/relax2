@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relax2
   class FileCache
     def initialize(dirname, filename)
@@ -14,24 +16,16 @@ module Relax2
     end
 
     def load
-      if Dir.exist?(@cache_dir) && File.exist?(@cache_path)
-        File.read(@cache_path)
-      else
-        nil
-      end
+      File.read(@cache_path) if Dir.exist?(@cache_dir) && File.exist?(@cache_path)
     end
 
     def save(data)
-      unless Dir.exist?(@cache_dir)
-        Dir.mkdir(@cache_dir)
-      end
+      Dir.mkdir(@cache_dir) unless Dir.exist?(@cache_dir)
       File.write(@cache_path, data)
     end
 
     def clear
-      if File.exist?(@cache_path)
-        File.delete(@cache_path)
-      end
+      File.delete(@cache_path) if File.exist?(@cache_path)
     end
   end
 end

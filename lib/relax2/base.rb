@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'relax2/dsl'
 require 'relax2/errors'
 require 'relax2/file_cache'
@@ -17,21 +19,14 @@ module Relax2
     end
 
     def self.run
-      from_pipe = File.pipe?(STDIN)
-      from_redirect = !IO.select([STDIN], [], [], 0).nil?
-      body =
-        if from_pipe || from_redirect
-          STDIN.read
-        else
-          nil
-        end
+      from_pipe = File.pipe?($stdin)
+      from_redirect = !IO.select([$stdin], [], [], 0).nil?
+      body = $stdin.read if from_pipe || from_redirect
 
       request = Request.from(args: ARGV, body: body)
 
       @interceptors ||= []
-      if @interceptors.empty?
-        @interceptors << Interceptors.print_response
-      end
+      @interceptors << Interceptors.print_response if @interceptors.empty?
 
       call(request)
     end

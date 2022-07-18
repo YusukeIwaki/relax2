@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require 'English'
 module Relax2
   require 'relax2/base'
 
   class MainApplication < Base
   end
 
-  at_exit { MainApplication.run if $!.nil? }
+  at_exit { MainApplication.run if $ERROR_INFO.nil? }
 end
 
 # Forward DSL methods into MainApplication class.
