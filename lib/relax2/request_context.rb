@@ -55,7 +55,7 @@ module Relax2
       end
 
       Response.new(
-        status: net_http_response.code,
+        status: net_http_response.code.to_i,
         headers: headers,
         body: net_http_response.body,
       )
