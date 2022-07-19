@@ -82,9 +82,6 @@ request = Relax2::Request.from_string('GET /hogehoge q=xx USER-Agent: Hoge/1.23'
 response = ExampleApi.call(request)
 ```
 
-
-
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -94,6 +91,17 @@ gem 'relax2'
 ```
 
 and then `bundle install`
+
+## References
+
+### Examples
+
+* Example of relax2 for [Android Management API](https://developers.google.com/android/management): https://github.com/YusukeIwaki/relax2-androidmanagement-api
+
+### Other langs
+
+* rakuda[https://github.com/YusukeIwaki/rakuda]: Dart implementation. Good for distributing in-house API client tool.
+* [@zatsu/core](https://github.com/YusukeIwaki/zatsu-core): Node.js implementation. Useful for distribution with npx.
 
 ## Development
 
