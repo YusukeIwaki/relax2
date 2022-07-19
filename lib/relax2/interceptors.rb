@@ -12,8 +12,8 @@ module Relax2
         lines = []
         lines << "#{request.http_method} #{request.path}"
         if @print_headers
-          request.headers.each do |header|
-            lines << "#{header.name}: #{header.value}"
+          request.headers.each do |name, value|
+            lines << "#{name}: #{value}"
           end
         end
 
@@ -42,8 +42,8 @@ module Relax2
         lines << "HTTP #{response.status}" if @print_status
 
         if @print_headers
-          response.headers.each do |header|
-            lines << "#{header.name}: #{header.value}"
+          response.headers.each do |name, value|
+            lines << "#{name}: #{value}"
           end
         end
 
