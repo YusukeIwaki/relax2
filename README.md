@@ -8,56 +8,20 @@ require 'relax2'
 
 base_url 'https://petstore.swagger.io/v2'
 
-interceptor -> (request, perform_request) do
-  puts request.body
-  response = perform_request.call(request)
-  puts response.body
-  response
-end
+interceptor :json_request
+interceptor :print_response
 ```
 
 Then enjoy your API calls.
 
 ```
 % ruby petstore.rb GET /pet/2
-{
-  "id": 2,
-  "category": {
-    "id": 5,
-    "name": "Angel"
-  },
-  "name": "DOG",
-  "tags": [
-    {
-      "id": 1,
-      "name": "Armanda Hirthe"
-    }
-  ],
-  "status": "available"
-}
+{"id":2,"name":"doggie","photoUrls":[],"tags":[],"status":"available"}
 ```
 
 ```
-% ruby petstore.rb PUT /pet/2
-{
-  "name": "NEW DOG"
-}
-
-{
-  "id": 2,
-  "category": {
-    "id": 5,
-    "name": "Angel"
-  },
-  "name": "NEW DOG",
-  "tags": [
-    {
-      "id": 1,
-      "name": "Armanda Hirthe"
-    }
-  ],
-  "status": "available"
-}
+$ echo '{"id": 2, "name": "NEW DOG", "status": "unavailable"}' | ruby petstore.rb PUT /pet
+{"id":2,"name":"NEW DOG","photoUrls":[],"tags":[],"status":"unavailable"}
 ```
 
 If you want to create more detailed client, use the modular style with `Relax2::Base`.
@@ -78,8 +42,12 @@ class ExampleApi < Relax2::Base
   end
 end
 
+# Request manually
 request = Relax2::Request.from_string('GET /hogehoge q=xx USER-Agent: Hoge/1.23')
 response = ExampleApi.call(request)
+
+# or, simply work with CLI args :)
+ExampleApi.run
 ```
 
 ## Installation
