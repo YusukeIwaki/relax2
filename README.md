@@ -43,7 +43,7 @@ class ExampleApi < Relax2::Base
 end
 
 # Request manually
-request = Relax2::Request.from_string('GET /hogehoge q=xx USER-Agent: Hoge/1.23')
+request = Relax2::Request.from(args: 'GET /hogehoge q=xx USER-Agent: Hoge/1.23'.split(' '))
 response = ExampleApi.call(request)
 
 # or, simply work with CLI args :)
