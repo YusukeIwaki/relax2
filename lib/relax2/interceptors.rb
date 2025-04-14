@@ -52,6 +52,8 @@ module Relax2
           lines << response.body
         end
         puts lines.join("\n")
+
+        response
       end
     end
 
